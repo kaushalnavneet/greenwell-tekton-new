@@ -27,9 +27,7 @@ spec:
     - name: noquote
       description: Simple un-quoted property
     - name: environment_value
-      description: Value from pipeline, trigger, or run property   
-    - name: textareaprop
-      description: Value from pipeline, trigger, or run property  
+      description: Value from pipeline, trigger, or run property    
   steps:
     - name: show-props
       image: ubuntu
@@ -39,9 +37,7 @@ spec:
         - name: NOQUOTE
           value: $(inputs.params.noquote)
         - name: ENVIRONMENT_VALUE
-          value: $(params.environment_value) 
-        - name: TEXTAREAPROP
-          value: $(params.textareaprop)   
+          value: $(params.environment_value)    
       command: ["/bin/bash", "-c"]
       args:
         - echo -e "The \033[36mquote\033[0m value from properties is >>";
@@ -49,9 +45,6 @@ spec:
           echo "";
           echo -e "The \033[36menvironment\033[0m value from properties is >>";
           echo $ENVIRONMENT_VALUE
-          echo "";
-          echo -e "The \033[36mtextareaprop\033[0m value from properties is >>";
-          echo $TEXTAREAPROP
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -67,39 +60,6 @@ spec:
             secretKeyRef:
               name: secure-properties
               key: apikey
-        - name: TEXTAREAPROP
-          valueFrom:
-            configMapKeyRef:
-              name: textareaprop
-              key: textareaprop  
-      command: ["/bin/bash", "-c"]
-      args:
-        - echo -e "\033[36menvironment\033[0m from ConfigMap is >>";
-          echo $ENVIRONMENT;
-          echo "";
-          echo -e "\033[36mtextareaprop\033[0m from ConfigMap is >>";
-          echo $TEXTAREAPROP;
-          echo "";
-          echo -e "\033[36mapikey\033[0m from Secrets is >>";
-          echo $SECURE_VALUE;
-          test=`echo ${SECURE_VALUE}`;
-          echo ${test}
-
----
-apiVersion: tekton.dev/v1beta1
-kind: Task
-metadata:
-  name: cm-textarea-props
-spec:
-  steps:
-    - name: cm-textarea-show-props
-      image: ubuntu
-      env:
-        - name: TEXTAREAPROP
-          valueFrom:
-            secretKeyRef:
-              name: textareaprop
-              key: textareaprop
         - name: ENVIRONMENT
           valueFrom:
             configMapKeyRef:
@@ -107,11 +67,14 @@ spec:
               key: environment  
       command: ["/bin/bash", "-c"]
       args:
-        - echo -e "\033[36mtextareaprop\033[0m from ConfigMap is >>";
-          echo $TEXTAREAPROP;
+        - echo -e "\033[36menvironment\033[0m from ConfigMap is >>";
+          echo $ENVIRONMENT;
           echo "";
-          test=`echo ${TEXTAREAPROP}`;
+          echo -e "\033[36mapikey\033[0m from Secrets is >>";
+          echo $SECURE_VALUE;
+          test=`echo ${SECURE_VALUE}`;
           echo ${test}
+
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task

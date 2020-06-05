@@ -13,9 +13,6 @@ spec:
     - name: environment_value
       description: A value from the pipeline level, trigger level or run level
       default: BLOOPER  
-    - name: textareaprop
-      description: A value from the pipeline level, trigger level or run level
-      default: DEFAULTTEXTAREA  
   tasks:
     - name: show-build-number
       taskRef:
@@ -30,8 +27,6 @@ spec:
           value: $(params.noquote)
         - name: environment_value
           value: $(params.environment_value)
-        - name: textareaprop
-          value: $(params.textareaprop)
     - name: cm-echo-task
       taskRef:
         name: cm-echo-props
@@ -40,7 +35,4 @@ spec:
         name: cm-all-props
     - name: cm-secrets-all-props
       taskRef:
-          name: cm-secrets-props   
-    - name: cm-echo-textarea-props
-      taskRef:
-          name: cm-textarea-props     
+          name: cm-secrets-props       
