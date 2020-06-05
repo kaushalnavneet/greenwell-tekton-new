@@ -24,6 +24,8 @@ spec:
       description: Quoted property
     - name: noquote
       description: UnQuoted property
+    - name: textareaprop
+      description: Textarea property
   resourcetemplates:
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
@@ -42,3 +44,5 @@ spec:
             value: $(params.noquote)
           - name: environment_value
             value: $(params.environment)  
+          - name: textareaprop
+            value: $(params.textareaprop)  
