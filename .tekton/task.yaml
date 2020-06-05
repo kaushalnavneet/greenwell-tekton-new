@@ -74,7 +74,7 @@ spec:
               key: environment
         - name: TEXTAREAPROP
           valueFrom:
-            secretKeyRef:
+            configMapKeyRef:
               name: environment-properties
               key: textareaprop
       command: ["/bin/bash", "-c"]
@@ -102,7 +102,7 @@ spec:
       env:
         - name: TEXTAREAPROP
           valueFrom:
-            secretKeyRef:
+            configMapKeyRef:
               name: environment-properties
               key: textareaprop 
       command: ["/bin/bash", "-c"]
