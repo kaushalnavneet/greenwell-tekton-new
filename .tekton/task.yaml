@@ -86,6 +86,28 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
+  name: cm-textarea-props
+spec:
+  steps:
+    - name: cm-textarea-show-props
+      image: ubuntu
+      env:
+        - name: TEXTAREAPROP
+          valueFrom:
+            secretKeyRef:
+              name: environment-properties
+              key: textareaprop 
+      command: ["/bin/bash", "-c"]
+      args:
+        - echo -e "\033[36mtextareaprop\033[0m from ConfigMap is >>";
+          echo $TEXTAREAPROP;
+          echo "";
+          test=`echo ${TEXTAREAPROP}`;
+          echo ${test}
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
   name: cm-all-props
 spec:
   steps:
